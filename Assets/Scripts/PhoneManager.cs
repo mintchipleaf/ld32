@@ -45,27 +45,27 @@ public class PhoneManager : MonoBehaviour {
 	void Update () {
 		//Left click
 		if(Input.GetMouseButtonDown(0))
-			FrontViewButton();
+			ActionButton();
 		//Right click
 		else if(Input.GetMouseButtonDown(1))
-			SelfieViewButton();
-	}
-
-	void FrontViewButton() {
-		Debug.Log("Left Click");
-		if (currentView == View.Front)
-			TakePic();
-		else if (currentView == View.Selfie)
 			SwitchView();
 	}
 
-	void SelfieViewButton() {
+	void ActionButton() {
+		Debug.Log("Left Click");
+		//if (currentView == View.Front)
+			TakePic();
+		//else if (currentView == View.Selfie)
+		//	SwitchView();
+	}
+
+	/*void SelfieViewButton() {
 		Debug.Log("Right Click");
 		if (currentView == View.Selfie)
 			TakePic();
 		else if (currentView == View.Front)
 			SwitchView();
-	}
+	}*/
 
 	/// <summary>
 	/// Switches screen to opposite view
