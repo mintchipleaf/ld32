@@ -11,7 +11,7 @@ public class PhoneOverlayManager : MonoBehaviour {
 	public GameObject uploadBarGroup;
 	public List<GameObject> uploadBars;
 
-	public enum Signal {Low, Med, High};
+	public enum Signal {None, Low, Med, High};
 	public Signal signalStrength;
 
 	private PhoneManager phone;
@@ -71,6 +71,12 @@ public class PhoneOverlayManager : MonoBehaviour {
 			phone.currentSignalStrength = Signal.Low;
 			lowSignal.enabled = true;
 			lowSignal.color = Color.red;
+			medSignal.enabled = false;
+			highSignal.enabled = false;
+		}
+		else if (signalStrength == Signal.None) {
+			phone.currentSignalStrength = Signal.None;
+			lowSignal.enabled = false;
 			medSignal.enabled = false;
 			highSignal.enabled = false;
 		}
