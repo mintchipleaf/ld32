@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,8 +9,9 @@ public class PhoneManager : MonoBehaviour {
 	public Camera selfieCamera;
 	public Material frontCamMaterial;
 	public Material selfieCamMaterial;
+	public Material tutorialCamMaterial;
 	
-	public enum View {Front, Selfie};
+	public enum View {Front, Selfie, Tutorial};
 	public View currentView;
 
 	public enum Signal {Low, Med, High};
@@ -47,7 +48,7 @@ public class PhoneManager : MonoBehaviour {
 		selfieCameraState = selfieCamera.GetComponent<CameraState>();
 		//frontCameraState = frontCamera.GetComponent<CameraState>();
 
-		currentView = View.Front;
+		SwitchToTutorial();
 		signalStrength = Signal.High;
 	}
 	
@@ -75,6 +76,8 @@ public class PhoneManager : MonoBehaviour {
 			SwitchToSelfie();
 		else if (currentView == View.Selfie)
 			SwitchToFront();
+		else if (currentView == View.Tutorial)
+			ExitTutorial();
 	}
 
 	void SwitchToSelfie() {
@@ -87,6 +90,19 @@ public class PhoneManager : MonoBehaviour {
 		overlay.UploadVisible(false);
 		screenRenderer.material = frontCamMaterial;
 		currentView = View.Front;
+	}
+
+	void SwitchToTutorial() {
+		overlay.UploadVisible(false);
+		overlay.SignalVisible(false);
+		screenRenderer.material = tutorialCamMaterial;
+		currentView = View.Tutorial;
+	}
+
+	void ExitTutorial() {
+		overlay.UploadVisible(true);
+		overlay.SignalVisible(true);
+		SwitchToFront();
 	}
 
 	/// <summary>

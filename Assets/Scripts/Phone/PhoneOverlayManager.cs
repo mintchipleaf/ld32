@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class PhoneOverlayManager : MonoBehaviour {
 
+	public GameObject signalBarGroup;
 	public List<GameObject> signals;
 
 	public GameObject uploadBarGroup;
@@ -70,8 +71,12 @@ public class PhoneOverlayManager : MonoBehaviour {
 			highSignal.enabled = false;
 		}
 	}
-
+	
 	public void UploadVisible (bool state) {
 		uploadBarGroup.SetActive(state);
+	}
+
+	public void SignalVisible (bool state) {
+		signalBarGroup.SetActive(state);
 	}
 }
