@@ -9,9 +9,12 @@ public class PhoneManager : MonoBehaviour {
 	public Camera selfieCamera;
 	public Material frontCamMaterial;
 	public Material selfieCamMaterial;
-
+	
 	public enum View {Front, Selfie};
 	public View currentView;
+
+	public enum Signal {Low, Med, High};
+	public Signal signalStrength;
 
 	private static PhoneManager instance;
 	private MeshRenderer screenRenderer;
@@ -42,6 +45,7 @@ public class PhoneManager : MonoBehaviour {
 		//frontCameraState = frontCamera.GetComponent<CameraState>();
 
 		currentView = View.Front;
+		signalStrength = Signal.High;
 	}
 	
 	// Update is called once per frame
