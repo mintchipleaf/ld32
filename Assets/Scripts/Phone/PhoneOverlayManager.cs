@@ -10,6 +10,9 @@ public class PhoneOverlayManager : MonoBehaviour {
 	public GameObject uploadBarGroup;
 	public List<GameObject> uploadBars;
 
+	public enum UploadSpeed {Low, Med, High};
+	public UploadSpeed speed;
+
 	private PhoneManager phone;
 	private PhoneManager.Signal currentSignal;
 	private Image lowSignal;

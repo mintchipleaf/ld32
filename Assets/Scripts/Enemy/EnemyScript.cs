@@ -29,8 +29,7 @@ public class EnemyScript : MonoBehaviour {
 		set {health = value;}
 	}
 
-	/*public void Kill() {
-		//phone.RemoveFromVisible(gameObject);
+	public void Kill() {
 		Destroy(gameObject);
-	}*/
+	}
 }

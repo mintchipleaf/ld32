@@ -46,8 +46,8 @@ public class CameraState : MonoBehaviour {
 			return;
 		else {
 			Freeze();
-			foreach (GameObject enemy in objectsInView)
-				Destroy(enemy);
+			foreach (GameObject obj in objectsInView)
+					Destroy(obj);
 		}
 	}
 

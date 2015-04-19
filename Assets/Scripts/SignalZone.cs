@@ -28,7 +28,7 @@ public class SignalZone : MonoBehaviour {
 	}
 
  	void OnTriggerEnter (Collider collider) {
-		//if(collider.gameObject.tag == "phone")
+		if(collider.gameObject.CompareTag("Phone"))
 			phone.signalStrength = signal;
 	}
 
