@@ -5,10 +5,11 @@ using System.Collections.Generic;
 public class CameraState : MonoBehaviour {
 
 	public List<GameObject> objectsInView;
-
+	
 	private PhoneManager phone;
 	private Camera thisCamera;
 	private bool isFrozen;
+	private int oldMask;
 
 	void Awake () {
 		objectsInView = new List<GameObject>();
@@ -19,6 +20,7 @@ public class CameraState : MonoBehaviour {
 		phone = PhoneManager.Instance;
 		isFrozen = false;
 		thisCamera = GetComponent<Camera>();
+		oldMask = thisCamera.cullingMask;
 	}
 	
 	// Update is called once per frame
@@ -84,7 +86,7 @@ public class CameraState : MonoBehaviour {
 		//yield return null;
 		thisCamera.clearFlags = CameraClearFlags.Skybox;
 		yield return null;
-		thisCamera.cullingMask = 1;
+		thisCamera.cullingMask = oldMask;
 	}
 
 }
