@@ -14,6 +14,10 @@ public class PhoneManager : MonoBehaviour {
 	public enum View {Front, Selfie, Tutorial};
 	public View currentView;
 
+	public bool isUploading;
+	public PhoneOverlayManager.Signal currentSignalStrength;
+
+
 	private static PhoneManager instance;
 	private PhoneOverlayManager overlay;
 	private MeshRenderer screenRenderer;
@@ -21,6 +25,8 @@ public class PhoneManager : MonoBehaviour {
 	private EnemyScript enemyScript;
 	private CameraState selfieCameraState;
 	//private CameraState frontCameraState;
+	private float uploadPercentage;
+
 
 
 	public static PhoneManager Instance {
@@ -33,6 +39,7 @@ public class PhoneManager : MonoBehaviour {
 
 	void Awake() {
 		instance = this;
+		uploadPercentage = 0;
 	}
 
 	// Use this for initialization
@@ -45,6 +52,8 @@ public class PhoneManager : MonoBehaviour {
 		selfieCameraState = selfieCamera.GetComponent<CameraState>();
 		//frontCameraState = frontCamera.GetComponent<CameraState>();
 
+		currentSignalStrength = overlay.signalStrength;
+
 		SwitchToTutorial();
 	}
 	
@@ -56,6 +65,7 @@ public class PhoneManager : MonoBehaviour {
 		//Right click
 		else if(Input.GetMouseButtonDown(1))
 			SwitchView();
+		CheckUpload();
 	}
 
 	void ActionButton() {
@@ -117,6 +127,43 @@ public class PhoneManager : MonoBehaviour {
 		currentCameraState.TakePicture();
 	}
 
+	/// <summary>
+	///	Starts the upload process
+	/// </summary>
+	public void Upload() {
+		uploadPercentage = 0;
+		isUploading = true;
+
+		//StartCoroutine(UploadTime());
+		//isUploading = false;
+
+	}
+
+	void CheckUpload() {
+		if(!isUploading)
+			return;
+		if(uploadPercentage >= 100) {
+			FinishUpload();
+			return;
+		}
+			uploadPercentage += 1;
+			if(uploadPercentage % 10 == 0)
+				overlay.UploadedTo((int)uploadPercentage);
+			//overlay.UploadedTo((int)uploadPercentage);
+	}
+	
+	void FinishUpload() {
+		foreach (GameObject obj in selfieCameraState.objectsInView)
+			Destroy(obj);
+		selfieCameraState.Unfreeze();
+		uploadPercentage = 0;
+		isUploading = false;
+	}
+
+	/// <summary>
+	///Checks if obj is visible to the selfie camera
+	/// </summary>
+	/// <param name="obj">Object to check visibility of</param>
 	public void CheckCameraVisibility(GameObject obj) {
 		enemyScript = obj.GetComponent<EnemyScript>();
 		isEnemyInCamera = obj.GetComponent<Renderer>().IsVisibleFrom(selfieCamera);
@@ -131,5 +178,35 @@ public class PhoneManager : MonoBehaviour {
 		}
 		//else if(obj.GetComponent<Renderer>().IsVisibleFrom(frontCamera))
 		//	frontCamera.GetComponent<CameraState>().AddToVisible(obj);
+	}
+
+	IEnumerator UploadTime() {
+		while(uploadPercentage < 100) {
+			uploadPercentage += .00001f;
+			if(uploadPercentage == 10)
+				overlay.UploadedTo(10);
+			else if(uploadPercentage == 20)
+				overlay.UploadedTo(20);
+			else if(uploadPercentage == 30)
+				overlay.UploadedTo(30);
+			else if(uploadPercentage == 40)
+				overlay.UploadedTo(40);
+			else if(uploadPercentage == 50)
+				overlay.UploadedTo(50);
+			else if(uploadPercentage == 60)
+				overlay.UploadedTo(60);
+			else if(uploadPercentage == 70)
+				overlay.UploadedTo(70);
+			else if(uploadPercentage == 80)
+				overlay.UploadedTo(80);
+			else if(uploadPercentage == 90)
+				overlay.UploadedTo(90);
+			else if(uploadPercentage == 100)
+				overlay.UploadedTo(100);
+			//overlay.UploadedTo((int)uploadPercentage);
+		}
+
+
+		yield return null;
 	}
 }

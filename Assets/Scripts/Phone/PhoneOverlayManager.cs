@@ -15,6 +15,7 @@ public class PhoneOverlayManager : MonoBehaviour {
 	public Signal signalStrength;
 
 	private PhoneManager phone;
+
 	private Image lowSignal;
 	private Image medSignal;
 	private Image highSignal;
@@ -31,12 +32,12 @@ public class PhoneOverlayManager : MonoBehaviour {
 
 	void Awake () {
 		UploadVisible(false);
+		signalStrength = Signal.High;
 	}
 
 	// Use this for initialization
 	void Start () {
 		phone = PhoneManager.Instance;
-		signalStrength = Signal.High;
 		lowSignal = signals[0].GetComponent<Image>();
 		medSignal = signals[1].GetComponent<Image>();
 		highSignal = signals[2].GetComponent<Image>();
@@ -47,8 +48,10 @@ public class PhoneOverlayManager : MonoBehaviour {
 		CheckSignal();
 	}
 
+	//This should be broken into separate public funcs, called when signal changes
 	void CheckSignal() {
 		if (signalStrength == Signal.High) {
+			phone.currentSignalStrength = Signal.High;
 			lowSignal.enabled = true;
 			lowSignal.color = Color.green;
 			medSignal.enabled = true;
@@ -57,21 +60,32 @@ public class PhoneOverlayManager : MonoBehaviour {
 			highSignal.color = Color.green;
 		}
 		else if (signalStrength == Signal.Med) {
+			phone.currentSignalStrength = Signal.Med;
 			lowSignal.enabled = true;
 			lowSignal.color = Color.yellow;
 			medSignal.enabled = true;
 			medSignal.color = Color.yellow;
 			highSignal.enabled = false;
         }
-		else if (signalStrength == Signal.Low)
-		{
+		else if (signalStrength == Signal.Low) {
+			phone.currentSignalStrength = Signal.Low;
 			lowSignal.enabled = true;
 			lowSignal.color = Color.red;
 			medSignal.enabled = false;
 			highSignal.enabled = false;
 		}
 	}
-	
+
+	public void UploadedTo(int tensPercentage) {
+		//Convert the percentage (in tens) to the bar list index
+		int barToShow = (tensPercentage / 10) - 1;
+		uploadBars[barToShow].GetComponent<Image>().enabled = true;
+
+		/*for(int i = 0; i < barToShow; i++)
+			uploadBars[i].GetComponent<Image>().enabled = true;
+		*/
+	}
+
 	public void UploadVisible (bool state) {
 		uploadBarGroup.SetActive(state);
 	}

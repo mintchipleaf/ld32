@@ -4,8 +4,10 @@ using System.Collections.Generic;
 
 public class CameraState : MonoBehaviour {
 
+	public List<GameObject> objectsInView;
+
+	private PhoneManager phone;
 	private Camera thisCamera;
-	private List<GameObject> objectsInView;
 	private bool isFrozen;
 
 	void Awake () {
@@ -14,6 +16,7 @@ public class CameraState : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		phone = PhoneManager.Instance;
 		isFrozen = false;
 		thisCamera = GetComponent<Camera>();
 	}
@@ -46,8 +49,9 @@ public class CameraState : MonoBehaviour {
 			return;
 		else {
 			Freeze();
-			foreach (GameObject obj in objectsInView)
-					Destroy(obj);
+			phone.Upload();
+			//foreach (GameObject obj in objectsInView)
+			//Unfreeze();
 		}
 	}
 
