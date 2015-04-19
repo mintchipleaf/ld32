@@ -38,6 +38,16 @@ public class CameraState : MonoBehaviour {
 		objectsInView.Remove(obj);
 	}
 
+	/// <summary>
+	/// Logic for when a pic is taken with this camera
+	/// </summary>
+	public void TakePicture() {
+		foreach (GameObject enemy in objectsInView)
+		{
+			Destroy(enemy);
+		}
+	}
+
 	public bool IsFrozen {
 		get {return isFrozen;}
 	}
@@ -58,6 +68,8 @@ public class CameraState : MonoBehaviour {
 		camera.clearFlags = CameraClearFlags.Nothing;
 		yield return null;
 		camera.cullingMask = 0;
+		yield return new WaitForSeconds(2.0f);
+		Unfreeze();
 	}
 
 	IEnumerator UnfreezeCam()

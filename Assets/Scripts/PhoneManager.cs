@@ -90,6 +90,7 @@ public class PhoneManager : MonoBehaviour {
 	/// Takes a picture with the current camera
 	/// </summary>
 	public void TakePic() {
+		//Set the camera the pic is taken from
 		Camera currentCamera = new Camera();
 		CameraState currentCameraState;
 		if(currentView == View.Front)
@@ -97,13 +98,15 @@ public class PhoneManager : MonoBehaviour {
 		else if (currentView == View.Selfie)
 			currentCamera = selfieCamera;
 
+		//Freeze or unfreeze the screen
 		currentCameraState = currentCamera.GetComponent<CameraState>();
 		if (currentCameraState.IsFrozen)
 			currentCameraState.Unfreeze();
 		else if (!currentCameraState.IsFrozen)
 			currentCameraState.Freeze();
-	}
 
+		currentCameraState.TakePicture();
+	}
 
 	public void CheckCameraVisibility(GameObject obj) {
 		enemyScript = obj.GetComponent<EnemyScript>();
