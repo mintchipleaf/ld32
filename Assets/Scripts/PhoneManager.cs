@@ -15,8 +15,11 @@ public class PhoneManager : MonoBehaviour {
 
 	private static PhoneManager instance;
 	private MeshRenderer screenRenderer;
+	private bool isEnemyInCamera;
+	private EnemyScript enemyScript;
 	private CameraState selfieCameraState;
-	private CameraState frontCameraState;
+	//private CameraState frontCameraState;
+
 
 	public static PhoneManager Instance {
 		get {
@@ -36,7 +39,7 @@ public class PhoneManager : MonoBehaviour {
 		screenRenderer.material = frontCamMaterial;
 
 		selfieCameraState = selfieCamera.GetComponent<CameraState>();
-		frontCameraState = frontCamera.GetComponent<CameraState>();
+		//frontCameraState = frontCamera.GetComponent<CameraState>();
 
 		currentView = View.Front;
 	}
@@ -103,11 +106,18 @@ public class PhoneManager : MonoBehaviour {
 
 
 	public void CheckCameraVisibility(GameObject obj) {
-		if(obj.GetComponent<Renderer>().IsVisibleFrom(selfieCamera))
-			selfieCamera.GetComponent<CameraState>().AddToVisible(obj);
+		enemyScript = obj.GetComponent<EnemyScript>();
+		isEnemyInCamera = obj.GetComponent<Renderer>().IsVisibleFrom(selfieCamera);
+
+		if (isEnemyInCamera && !enemyScript.MarkedVisible) {
+			enemyScript.MarkedVisible = true;
+			selfieCameraState.AddToVisible(obj);
+		}
+		else if (!isEnemyInCamera && enemyScript.MarkedVisible) {
+			enemyScript.MarkedVisible = false;
+			selfieCameraState.RemoveFromVisible(obj);
+		}
 		//else if(obj.GetComponent<Renderer>().IsVisibleFrom(frontCamera))
 		//	frontCamera.GetComponent<CameraState>().AddToVisible(obj);
 	}
-
-
 }
