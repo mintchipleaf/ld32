@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class CameraState : MonoBehaviour {
 
-	private Camera camera;
+	private Camera thisCamera;
 	private List<GameObject> objectsInView;
 	private bool isFrozen;
 
@@ -15,7 +15,7 @@ public class CameraState : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		isFrozen = false;
-		camera = GetComponent<Camera>();
+		thisCamera = GetComponent<Camera>();
 	}
 	
 	// Update is called once per frame
@@ -42,9 +42,12 @@ public class CameraState : MonoBehaviour {
 	/// Logic for when a pic is taken with this camera
 	/// </summary>
 	public void TakePicture() {
-		foreach (GameObject enemy in objectsInView)
-		{
-			Destroy(enemy);
+		if(IsFrozen)
+			return;
+		else {
+			Freeze();
+			foreach (GameObject enemy in objectsInView)
+				Destroy(enemy);
 		}
 	}
 
@@ -65,9 +68,9 @@ public class CameraState : MonoBehaviour {
 	IEnumerator FreezeCam()
 	{
 		//yield return null;
-		camera.clearFlags = CameraClearFlags.Nothing;
+		thisCamera.clearFlags = CameraClearFlags.Nothing;
 		yield return null;
-		camera.cullingMask = 0;
+		thisCamera.cullingMask = 0;
 		yield return new WaitForSeconds(2.0f);
 		Unfreeze();
 	}
@@ -75,9 +78,9 @@ public class CameraState : MonoBehaviour {
 	IEnumerator UnfreezeCam()
 	{
 		//yield return null;
-		camera.clearFlags = CameraClearFlags.Skybox;
+		thisCamera.clearFlags = CameraClearFlags.Skybox;
 		yield return null;
-		camera.cullingMask = 1;
+		thisCamera.cullingMask = 1;
 	}
 
 }

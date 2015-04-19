@@ -5,15 +5,18 @@ using System.Collections.Generic;
 
 public class PhoneOverlayManager : MonoBehaviour {
 
-	public List<GameObject> Signals;
+	public List<GameObject> signals;
 
-	private PhoneManager.Signal currentSignal;
+	public GameObject uploadBarGroup;
+	public List<GameObject> uploadBars;
+
 	private PhoneManager phone;
+	private PhoneManager.Signal currentSignal;
 	private Image lowSignal;
 	private Image medSignal;
 	private Image highSignal;
 
-	/*private static PhoneOverlayManager instance;
+	private static PhoneOverlayManager instance;
 
 	public static PhoneOverlayManager Instance {
 		get {
@@ -21,18 +24,18 @@ public class PhoneOverlayManager : MonoBehaviour {
 				instance = GameObject.FindObjectOfType<PhoneOverlayManager>();
 			return instance;
 		}
-	}*/
+	}
 
 	void Awake () {
-
+		UploadVisible(false);
 	}
 
 	// Use this for initialization
 	void Start () {
 		phone = PhoneManager.Instance;
-		lowSignal = Signals[0].GetComponent<Image>();
-		medSignal = Signals[1].GetComponent<Image>();
-		highSignal = Signals[2].GetComponent<Image>();
+		lowSignal = signals[0].GetComponent<Image>();
+		medSignal = signals[1].GetComponent<Image>();
+		highSignal = signals[2].GetComponent<Image>();
 	}
 	
 	// Update is called once per frame
@@ -63,5 +66,9 @@ public class PhoneOverlayManager : MonoBehaviour {
 			medSignal.enabled = false;
 			highSignal.enabled = false;
 		}
+	}
+
+	public void UploadVisible (bool state) {
+		uploadBarGroup.SetActive(state);
 	}
 }

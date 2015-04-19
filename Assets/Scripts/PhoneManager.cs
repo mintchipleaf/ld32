@@ -17,6 +17,7 @@ public class PhoneManager : MonoBehaviour {
 	public Signal signalStrength;
 
 	private static PhoneManager instance;
+	private PhoneOverlayManager overlay;
 	private MeshRenderer screenRenderer;
 	private bool isEnemyInCamera;
 	private EnemyScript enemyScript;
@@ -38,6 +39,8 @@ public class PhoneManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		overlay = PhoneOverlayManager.Instance;
+
 		screenRenderer = screen.GetComponent<MeshRenderer>();
 		screenRenderer.material = frontCamMaterial;
 
@@ -60,34 +63,30 @@ public class PhoneManager : MonoBehaviour {
 
 	void ActionButton() {
 		Debug.Log("Left Click");
-		//if (currentView == View.Front)
-			TakePic();
-		//else if (currentView == View.Selfie)
-		//	SwitchView();
-	}
-
-	/*void SelfieViewButton() {
-		Debug.Log("Right Click");
 		if (currentView == View.Selfie)
 			TakePic();
-		else if (currentView == View.Front)
-			SwitchView();
-	}*/
+	}
 
 	/// <summary>
 	/// Switches screen to opposite view
 	/// </summary>
 	public void SwitchView() {
-		//Change view to selfie
-		if (currentView == View.Front) {
-			screenRenderer.material = selfieCamMaterial;
-			currentView = View.Selfie;
-		}
-		//Change view to front
-		else if (currentView == View.Selfie) {
-			screenRenderer.material = frontCamMaterial;
-			currentView = View.Front;
-		}
+		if (currentView == View.Front)
+			SwitchToSelfie();
+		else if (currentView == View.Selfie)
+			SwitchToFront();
+	}
+
+	void SwitchToSelfie() {
+		overlay.UploadVisible(true);
+		screenRenderer.material = selfieCamMaterial;
+		currentView = View.Selfie;
+	}
+
+	void SwitchToFront() {
+		overlay.UploadVisible(false);
+		screenRenderer.material = frontCamMaterial;
+		currentView = View.Front;
 	}
 
 	/// <summary>
@@ -102,13 +101,7 @@ public class PhoneManager : MonoBehaviour {
 		else if (currentView == View.Selfie)
 			currentCamera = selfieCamera;
 
-		//Freeze or unfreeze the screen
 		currentCameraState = currentCamera.GetComponent<CameraState>();
-		if (currentCameraState.IsFrozen)
-			currentCameraState.Unfreeze();
-		else if (!currentCameraState.IsFrozen)
-			currentCameraState.Freeze();
-
 		currentCameraState.TakePicture();
 	}
 
