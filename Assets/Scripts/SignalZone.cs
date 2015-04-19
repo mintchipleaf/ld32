@@ -7,19 +7,19 @@ public class SignalZone : MonoBehaviour {
 	public Signal signalStrength;
 	
 
-	private PhoneManager.Signal signal;
-	private PhoneManager phone;
+	private PhoneOverlayManager.Signal signal;
+	private PhoneOverlayManager overlay;
 
 	void Awake () {
 		if(signalStrength == Signal.Low)
-			signal = PhoneManager.Signal.Low;
+			signal = PhoneOverlayManager.Signal.Low;
 		else if (signalStrength == Signal.Med)
-			signal = PhoneManager.Signal.Med;
+			signal = PhoneOverlayManager.Signal.Med;
 	}
 
 	// Use this for initialization
 	void Start () {
-		phone = PhoneManager.Instance;
+		overlay = PhoneOverlayManager.Instance;
 	}
 	
 	// Update is called once per frame
@@ -29,14 +29,14 @@ public class SignalZone : MonoBehaviour {
 
  	void OnTriggerEnter (Collider collider) {
 		if(collider.gameObject.CompareTag("Phone"))
-			phone.signalStrength = signal;
+			overlay.signalStrength = signal;
 	}
 
 	void OnTriggerExit (Collider collider) {
 		//This badly assumes all zones concentric
 		if(signalStrength == Signal.Med)
-			phone.signalStrength = PhoneManager.Signal.High;
+			overlay.signalStrength = PhoneOverlayManager.Signal.High;
 		else if (signalStrength == Signal.Low)
-			phone.signalStrength = PhoneManager.Signal.Med;
+			overlay.signalStrength = PhoneOverlayManager.Signal.Med;
 	}
 }

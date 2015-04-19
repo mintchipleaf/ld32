@@ -11,11 +11,10 @@ public class PhoneOverlayManager : MonoBehaviour {
 	public GameObject uploadBarGroup;
 	public List<GameObject> uploadBars;
 
-	public enum UploadSpeed {Low, Med, High};
-	public UploadSpeed speed;
+	public enum Signal {Low, Med, High};
+	public Signal signalStrength;
 
 	private PhoneManager phone;
-	private PhoneManager.Signal currentSignal;
 	private Image lowSignal;
 	private Image medSignal;
 	private Image highSignal;
@@ -37,6 +36,7 @@ public class PhoneOverlayManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		phone = PhoneManager.Instance;
+		signalStrength = Signal.High;
 		lowSignal = signals[0].GetComponent<Image>();
 		medSignal = signals[1].GetComponent<Image>();
 		highSignal = signals[2].GetComponent<Image>();
@@ -48,7 +48,7 @@ public class PhoneOverlayManager : MonoBehaviour {
 	}
 
 	void CheckSignal() {
-		if (phone.signalStrength == PhoneManager.Signal.High) {
+		if (signalStrength == Signal.High) {
 			lowSignal.enabled = true;
 			lowSignal.color = Color.green;
 			medSignal.enabled = true;
@@ -56,14 +56,14 @@ public class PhoneOverlayManager : MonoBehaviour {
 			highSignal.enabled = true;
 			highSignal.color = Color.green;
 		}
-		else if (phone.signalStrength == PhoneManager.Signal.Med) {
+		else if (signalStrength == Signal.Med) {
 			lowSignal.enabled = true;
 			lowSignal.color = Color.yellow;
 			medSignal.enabled = true;
 			medSignal.color = Color.yellow;
 			highSignal.enabled = false;
         }
-		else if (phone.signalStrength == PhoneManager.Signal.Low)
+		else if (signalStrength == Signal.Low)
 		{
 			lowSignal.enabled = true;
 			lowSignal.color = Color.red;

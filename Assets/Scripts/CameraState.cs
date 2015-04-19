@@ -71,8 +71,8 @@ public class CameraState : MonoBehaviour {
 		thisCamera.clearFlags = CameraClearFlags.Nothing;
 		yield return null;
 		thisCamera.cullingMask = 0;
-		yield return new WaitForSeconds(2.0f);
-		Unfreeze();
+		//yield return new WaitForSeconds(2.0f);
+		//Unfreeze();
 	}
 
 	IEnumerator UnfreezeCam()

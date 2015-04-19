@@ -14,9 +14,6 @@ public class PhoneManager : MonoBehaviour {
 	public enum View {Front, Selfie, Tutorial};
 	public View currentView;
 
-	public enum Signal {Low, Med, High};
-	public Signal signalStrength;
-
 	private static PhoneManager instance;
 	private PhoneOverlayManager overlay;
 	private MeshRenderer screenRenderer;
@@ -49,7 +46,6 @@ public class PhoneManager : MonoBehaviour {
 		//frontCameraState = frontCamera.GetComponent<CameraState>();
 
 		SwitchToTutorial();
-		signalStrength = Signal.High;
 	}
 	
 	// Update is called once per frame
