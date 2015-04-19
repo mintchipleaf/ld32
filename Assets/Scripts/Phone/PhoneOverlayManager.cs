@@ -77,6 +77,11 @@ public class PhoneOverlayManager : MonoBehaviour {
 	}
 
 	public void UploadedTo(int tensPercentage) {
+		if(tensPercentage == 0)
+			foreach (GameObject bar in uploadBars){
+				bar.GetComponent<Image>().enabled = false;
+			}
+
 		//Convert the percentage (in tens) to the bar list index
 		int barToShow = (tensPercentage / 10) - 1;
 		uploadBars[barToShow].GetComponent<Image>().enabled = true;

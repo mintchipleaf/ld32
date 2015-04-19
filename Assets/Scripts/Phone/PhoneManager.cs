@@ -18,6 +18,7 @@ public class PhoneManager : MonoBehaviour {
 	public PhoneOverlayManager.Signal currentSignalStrength;
 
 
+
 	private static PhoneManager instance;
 	private PhoneOverlayManager overlay;
 	private MeshRenderer screenRenderer;
@@ -146,9 +147,16 @@ public class PhoneManager : MonoBehaviour {
 			FinishUpload();
 			return;
 		}
-			uploadPercentage += 1;
-			if(uploadPercentage % 10 == 0)
-				overlay.UploadedTo((int)uploadPercentage);
+
+		if(currentSignalStrength == PhoneOverlayManager.Signal.High)
+			uploadPercentage += 2;
+		else if(currentSignalStrength == PhoneOverlayManager.Signal.Med)
+			uploadPercentage += 1f;
+		else if(currentSignalStrength == PhoneOverlayManager.Signal.Low)
+			uploadPercentage += 0f;
+
+		if(uploadPercentage % 10 == 0)
+			overlay.UploadedTo((int)uploadPercentage);
 			//overlay.UploadedTo((int)uploadPercentage);
 	}
 	
@@ -158,6 +166,7 @@ public class PhoneManager : MonoBehaviour {
 		selfieCameraState.Unfreeze();
 		uploadPercentage = 0;
 		isUploading = false;
+		overlay.UploadedTo(0);
 	}
 
 	/// <summary>
