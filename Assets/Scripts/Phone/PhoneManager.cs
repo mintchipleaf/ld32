@@ -10,6 +10,7 @@ public class PhoneManager : MonoBehaviour {
 	public Material frontCamMaterial;
 	public Material selfieCamMaterial;
 	public Material tutorialCamMaterial;
+	public Material endGameMaterial;
 	
 	public enum View {Front, Selfie, Tutorial};
 	public View currentView;
@@ -67,6 +68,8 @@ public class PhoneManager : MonoBehaviour {
 		else if(Input.GetMouseButtonDown(1))
 			SwitchView();
 		CheckUpload();
+
+		if (Input.GetKey(KeyCode.Escape)) { Application.Quit(); } 
 	}
 
 	void ActionButton() {
@@ -187,6 +190,13 @@ public class PhoneManager : MonoBehaviour {
 		}
 		//else if(obj.GetComponent<Renderer>().IsVisibleFrom(frontCamera))
 		//	frontCamera.GetComponent<CameraState>().AddToVisible(obj);
+
+	}
+
+	public void EndGame() {
+		overlay.SignalVisible(false);
+		overlay.UploadVisible(false);
+		screenRenderer.material = endGameMaterial;
 	}
 
 	IEnumerator UploadTime() {

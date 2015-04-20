@@ -31,6 +31,7 @@ public class PhoneOverlayManager : MonoBehaviour {
 	}
 
 	void Awake () {
+		instance = this;
 		UploadVisible(false);
 		signalStrength = Signal.High;
 	}

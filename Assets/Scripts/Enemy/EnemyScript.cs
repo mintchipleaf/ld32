@@ -4,12 +4,14 @@ using System.Collections;
 public class EnemyScript : MonoBehaviour {
 
 	private PhoneManager phone;
+	private EnemyManager manager;
 	private bool markedVisible;
 	private float health;
 
 	// Use this for initialization
 	void Start () {
 		phone = PhoneManager.Instance;
+		manager = EnemyManager.Instance;
 		markedVisible = false;
 		health = 100;
 	}
@@ -31,5 +33,6 @@ public class EnemyScript : MonoBehaviour {
 
 	public void Kill() {
 		Destroy(gameObject);
+		manager.RemoveFromEnemies(this.gameObject);
 	}
 }
